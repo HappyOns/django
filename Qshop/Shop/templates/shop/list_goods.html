@@ -1,0 +1,37 @@
+{% extends "shop/base.html" %}
+
+{% block title %}
+    {{ request.COOKIES.email }} 商品列表
+{% endblock %}
+{% block label %}
+    <a class="btn btn-warning" href="/Shop/add_goods/">添加商品</a>
+{% endblock %}
+{% block content %}
+    <table class="table dataTable ">
+        <tr>
+            <th>商品名称</th>
+            <th>商品价格</th>
+            <th>商品数量</th>
+            <th>出厂日期</th>
+            <th>保质期</th>
+            <th>操作</th>
+        </tr>
+        {% for goods in goods_list %}
+            <tr>
+                <td><a href="/Shop/goods/{{ goods.id }}">
+                    {{ goods.name }}</a></td>
+                <td>{{ goods.price }}</td>
+                <td>{{ goods.number }}</td>
+                <td>{{ goods.production }}</td>
+                <td>{{ goods.safe_date }}</td>
+                <td>
+                    {% ifequal goods.statue 1 %}
+                    <a href="/Shop/set_goods/{{ goods.id }}/?set_type=domn" class="btn btn-danger">下架</a>
+                    {% else %}
+                    <a href="/Shop/set_goods/{{ goods.id }}/?set_type=up" class="btn btn-primary">上架</a>
+                    {% endifequal %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
